@@ -1,0 +1,12 @@
+html, body, #root, #root > .App {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  background: #0c0c0c;
+}
+
+* {
+  font-family: 'Roboto Mono';
+  outline: none !important;
+  user-select: none;
+}
