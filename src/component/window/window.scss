@@ -1,0 +1,122 @@
+.window {
+  &.frame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  .navbar {
+    width: 100%;
+    height: 20px;
+    background: #f0f0f0;
+    cursor: move;
+    position: relative;
+    z-index: 2;
+    .title {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      text-align: center;
+      line-height: 18px;
+      font-size: 12px;
+    }
+    .action-buttons {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      height: 100%;
+      &:hover i {
+        color: rgba(0, 0, 0, 0.7);
+      }
+      button {
+        border: none;
+        outline: none;
+        width: 20px;
+        height: 100%;
+        font-size: 12px;
+        line-height: 18px;
+        vertical-align: top;
+        padding: 0;
+        background: transparent;
+        cursor: pointer;
+        transition: all .1s;
+        &:hover {
+          background: rgba(0, 0, 0, 0.1);
+        }
+      }
+      i {
+        color: rgba(0, 0, 0, 0.3);
+        transition: all .1s;
+      }
+    }
+  }
+  .content {
+    width: 100%;
+    height: calc(100% - 20px);
+    z-index: 1;
+    position: relative;
+    > * {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  }
+  .resizer {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    z-index: 2;
+    &.tl {
+      top: -4px;
+      left: -4px;
+      z-index: 3;
+      cursor: nwse-resize;
+    }
+    &.t {
+      top: -4px;
+      left: -4px;
+      width: calc(100% + 8px);
+      cursor: ns-resize;
+    }
+    &.tr {
+      top: -4px;
+      right: -4px;
+      z-index: 3;
+      cursor: nesw-resize;
+    }
+    &.r {
+      top: -4px;
+      right: -4px;
+      height: calc(100% + 8px);
+      cursor: ew-resize;
+    }
+    &.br {
+      bottom: -4px;
+      right: -4px;
+      z-index: 3;
+      cursor: nwse-resize;
+    }
+    &.b {
+      left: -4px;
+      bottom: -4px;
+      width: calc(100% + 8px);
+      cursor: ns-resize;
+    }
+    &.bl {
+      bottom: -4px;
+      left: -4px;
+      z-index: 3;
+      cursor: nesw-resize;
+    }
+    &.l {
+      top: -4px;
+      left: -4px;
+      height: calc(100% + 8px);
+      cursor: ew-resize;
+    }
+  }
+}

@@ -67,24 +67,80 @@ class Desktop extends React.Component {
     };
 
     onMouseMove = (ev) => {
+        const window = this.state.activeWindow.window;
+        const windowConfig = {
+            transition: null
+        };
+
         switch (this.state.activeWindow.src) {
             case 'window':
-                this.updateActiveWindow({
-                    x: ev.pageX - this.state.activeWindow.layerX,
-                    y: ev.pageY - this.state.activeWindow.layerY,
-                    transition: null
-                });
-                break;
-            case 'resize':
-                const window = this.state.activeWindow.window;
-                const width = window.width + (ev.clientX - this.state.activeWindow.clientX);
-                const height = window.height + (ev.clientY - this.state.activeWindow.clientY);
+                windowConfig.x = ev.pageX - this.state.activeWindow.layerX;
+                windowConfig.y = ev.pageY - this.state.activeWindow.layerY;
 
-                this.updateActiveWindow({
-                    width: width > windowSize.width ? width : windowSize.width,
-                    height: height > windowSize.height ? height : windowSize.height,
-                    transition: null
-                });
+                this.updateActiveWindow(windowConfig);
+                break;
+            case 'resize-br':
+            case 'resize-b':
+            case 'resize-r':
+                if (['resize-br', 'resize-r'].includes(this.state.activeWindow.src)) {
+                    const width = window.width + (ev.clientX - this.state.activeWindow.clientX);
+
+                    windowConfig.width = width > windowSize.width ? width : windowSize.width;
+                }
+                if (['resize-br', 'resize-b'].includes(this.state.activeWindow.src)) {
+                    const height = window.height + (ev.clientY - this.state.activeWindow.clientY);
+
+                    windowConfig.height = height > windowSize.height ? height : windowSize.height;
+                }
+
+                this.updateActiveWindow(windowConfig);
+                break;
+            case 'resize-tl':
+            case 'resize-t':
+            case 'resize-l':
+                if (['resize-tl', 'resize-l'].includes(this.state.activeWindow.src)) {
+                    const width = window.width + (this.state.activeWindow.clientX - ev.clientX);
+
+                    if (ev.clientX < window.x) {
+                        windowConfig.width = width > windowSize.width ? width : windowSize.width;
+                        windowConfig.x = ev.clientX;
+                    }
+                }
+                if (['resize-tl', 'resize-t'].includes(this.state.activeWindow.src)) {
+                    const height = window.height + (this.state.activeWindow.clientY - ev.clientY);
+
+                    if (ev.clientY < window.y) {
+                        windowConfig.height = height > windowSize.height ? height : windowSize.height;
+                        windowConfig.y = ev.clientY;
+                    }
+                }
+
+                this.updateActiveWindow(windowConfig);
+                break;
+            case 'resize-tr':
+                const widthTR = window.width + (ev.clientX - this.state.activeWindow.clientX);
+                const heightTR = window.height + (this.state.activeWindow.clientY - ev.clientY);
+
+                if (ev.clientY < window.y) {
+                windowConfig.width = widthTR > windowSize.width ? widthTR : windowSize.width;
+                windowConfig.height = heightTR > windowSize.height ? heightTR : windowSize.height;
+                windowConfig.y = ev.clientY;
+                }
+
+                this.updateActiveWindow(windowConfig);
+                break;
+            case 'resize-bl':
+                const heightBL = window.height + (ev.clientY - this.state.activeWindow.clientY);
+                const widthBL = window.width + (this.state.activeWindow.clientX - ev.clientX);
+
+                if (ev.clientX < window.x) {
+                    windowConfig.width = widthBL > windowSize.width ? widthBL : windowSize.width;
+                    windowConfig.height = heightBL > windowSize.height ? heightBL : windowSize.height;
+                    windowConfig.x = ev.clientX;
+                }
+
+
+                this.updateActiveWindow(windowConfig);
                 break;
         }
     };
