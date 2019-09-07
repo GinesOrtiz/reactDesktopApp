@@ -34,15 +34,15 @@ class Window extends React.Component {
     render() {
         return (
             <div className={'window frame'}
-                onClick={this.props.onClick}
-                style={{
-                    top: `${this.props.window.y}px`,
-                    left: `${this.props.window.x}px`,
-                    width: `${this.props.window.width}px`,
-                    height: `${this.props.window.height}px`,
-                    transition: this.props.window.transition,
-                    zIndex: this.props.window.active ? 2 : 1
-                }}>
+                 onClick={this.props.onClick}
+                 style={{
+                     top: `${this.props.window.y}px`,
+                     left: `${this.props.window.x}px`,
+                     width: `${this.props.window.width}px`,
+                     height: `${this.props.window.height}px`,
+                     transition: this.props.window.transition,
+                     zIndex: this.props.window.active ? 2 : 1
+                 }}>
                 <WindowNavBar
                     window={this.props.window}
                     onMouseDown={this.props.onMouseDown}

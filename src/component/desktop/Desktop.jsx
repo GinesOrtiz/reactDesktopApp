@@ -96,12 +96,12 @@ class Desktop extends React.Component {
                 this.updateActiveWindow(windowConfig);
                 break;
             case 'resize-tl':
-            case 'resize-t':
             case 'resize-l':
+            case 'resize-t':
                 if (['resize-tl', 'resize-l'].includes(this.state.activeWindow.src)) {
                     const width = window.width + (this.state.activeWindow.clientX - ev.clientX);
 
-                    if (ev.clientX < window.x) {
+                    if (width > windowSize.width) {
                         windowConfig.width = width > windowSize.width ? width : windowSize.width;
                         windowConfig.x = ev.clientX;
                     }
@@ -109,7 +109,7 @@ class Desktop extends React.Component {
                 if (['resize-tl', 'resize-t'].includes(this.state.activeWindow.src)) {
                     const height = window.height + (this.state.activeWindow.clientY - ev.clientY);
 
-                    if (ev.clientY < window.y) {
+                    if (height > windowSize.height) {
                         windowConfig.height = height > windowSize.height ? height : windowSize.height;
                         windowConfig.y = ev.clientY;
                     }
@@ -121,10 +121,11 @@ class Desktop extends React.Component {
                 const widthTR = window.width + (ev.clientX - this.state.activeWindow.clientX);
                 const heightTR = window.height + (this.state.activeWindow.clientY - ev.clientY);
 
-                if (ev.clientY < window.y) {
                 windowConfig.width = widthTR > windowSize.width ? widthTR : windowSize.width;
-                windowConfig.height = heightTR > windowSize.height ? heightTR : windowSize.height;
-                windowConfig.y = ev.clientY;
+
+                if (heightTR > windowSize.height) {
+                    windowConfig.height = heightTR > windowSize.height ? heightTR : windowSize.height;
+                    windowConfig.y = ev.clientY;
                 }
 
                 this.updateActiveWindow(windowConfig);
@@ -133,9 +134,10 @@ class Desktop extends React.Component {
                 const heightBL = window.height + (ev.clientY - this.state.activeWindow.clientY);
                 const widthBL = window.width + (this.state.activeWindow.clientX - ev.clientX);
 
-                if (ev.clientX < window.x) {
+                windowConfig.height = heightBL > windowSize.height ? heightBL : windowSize.height;
+
+                if (widthBL > windowSize.width) {
                     windowConfig.width = widthBL > windowSize.width ? widthBL : windowSize.width;
-                    windowConfig.height = heightBL > windowSize.height ? heightBL : windowSize.height;
                     windowConfig.x = ev.clientX;
                 }
 
