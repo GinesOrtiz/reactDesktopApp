@@ -2,7 +2,7 @@
 
 This is a fun project which idea is to mimic a desktop window interface and the goal is to be able to create and run custom apps for it (like electron).  
 
-![example](https://imgur.com/2jKrdul.gif)
+![example](https://i.imgur.com/TRun313.gif)
 ![iframeApp](https://imgur.com/AwPnEj7.png)
 
 ## Available Scripts
