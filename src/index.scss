@@ -9,4 +9,5 @@ html, body, #root, #root > .App {
   font-family: 'Roboto Mono';
   outline: none !important;
   user-select: none;
+  box-sizing: border-box;
 }
