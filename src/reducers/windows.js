@@ -13,7 +13,7 @@ const defaultSate = [
         icon: 'dashboard'
     },
     {
-        id: 'dmeo',
+        id: 'demo',
         x: 400,
         y: 300,
         width: 400,
@@ -43,11 +43,7 @@ const windows = (state = defaultSate, action) => {
 
             newState.push(activeWindow);
 
-            return newState.map(window => {
-                window.active = false;
-
-                return window;
-            });
+            return newState.map(window => ({...window, active: window.id === action.window.id}));
         case Windows.FULLSCREEN_WINDOW:
 
             if (newState[currentWindow].prev) {
@@ -83,6 +79,8 @@ const windows = (state = defaultSate, action) => {
             newState.splice(currentWindow, 1);
 
             return newState;
+        case Windows.ACTIVE_DESKTOP:
+            return newState.map(window => ({...window, active: false}));
         default:
             return state;
     }

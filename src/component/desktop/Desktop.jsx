@@ -1,23 +1,35 @@
 import React from 'react';
-import styled from 'styled-components';
 import {connect} from 'react-redux'
 
 import Window from '../window/Window';
-import Dock from './Dock';
+import Dock from '../dock/Dock';
+import MenuBar from '../menuBar/MenuBar';
 import {windowInteraction} from './utils/windows';
 import {updateWindow, activeWindow} from '../../actions/windows';
-
-const DesktopMainFrame = styled.div`
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    background: #405592;
-`;
+import './desktop.scss';
+import {openContextMenu} from '../../actions/contextMenu';
+import ContextMenu from '../contextMenu/ContextMenu';
 
 class Desktop extends React.Component {
     state = {
         activeWindow: {}
     };
+
+    desktopContextMenu = [
+        {
+            type: 'button',
+            value: 'text',
+            icon: 'layers'
+        },
+        {
+            type: 'separator'
+        },
+        {
+            type: 'button',
+            value: 'demo2',
+            icon: 'lens'
+        }
+    ];
 
     onMouseDown = (ev, window, src) => {
         const windows = [...this.props.windows];
@@ -53,18 +65,34 @@ class Desktop extends React.Component {
         this.setState({activeWindow: {}});
     };
 
+    onContextMenu = ev => {
+        const position = {
+            top: ev.clientY,
+            left: ev.clientX
+        };
+
+        ev.preventDefault();
+        this.props.openContextMenu({position, content: this.desktopContextMenu});
+    };
+
     render() {
         return (
-            <DesktopMainFrame
-                onMouseMove={this.onMouseMove}
-                onMouseUp={this.onMouseUp}>
+            <div className={'desktop'}
+                 onMouseMove={this.onMouseMove}
+                 onMouseUp={this.onMouseUp}>
+                <MenuBar/>
+                <div
+                    onContextMenu={this.onContextMenu}
+                    className={'desktop-layer'}
+                    onClick={() => this.props.activeWindow({})}/>
                 {this.props.windows.map((window, pos) => <Window
                     windowPos={pos}
                     key={window.id}
                     onMouseDown={this.onMouseDown}
                 />)}
                 <Dock/>
-            </DesktopMainFrame>
+                <ContextMenu/>
+            </div>
         );
     }
 }
@@ -75,7 +103,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     updateWindow: (window, data) => dispatch(updateWindow(window, data)),
-    activeWindow: window => dispatch(activeWindow(window))
+    activeWindow: window => dispatch(activeWindow(window)),
+    openContextMenu: config => dispatch(openContextMenu(config))
 });
 
 export default connect(

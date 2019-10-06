@@ -3,7 +3,8 @@ export const Windows = {
     UPDATE_WINDOW: 'UPDATE_WINDOW',
     ACTIVE_WINDOW: 'ACTIVE_WINDOW',
     DELETE_WINDOW: 'DELETE_WINDOW',
-    FULLSCREEN_WINDOW: 'FULLSCREEN_WINDOW'
+    FULLSCREEN_WINDOW: 'FULLSCREEN_WINDOW',
+    ACTIVE_DESKTOP: 'ACTIVE_DESKTOP',
 };
 
 export const createWindow = window => ({
@@ -30,5 +31,10 @@ export const fullScreenWindow = window => ({
 
 export const deleteWindow = window => ({
     type: Windows.DELETE_WINDOW,
+    window
+});
+
+export const activeDesktop = window => ({
+    type: Windows.ACTIVE_DESKTOP,
     window
 });
