@@ -16,10 +16,22 @@ class Dock extends React.Component {
         this.props.createWindow(window);
     };
 
+    launchAppDock = () => {
+
+    };
+
     render() {
         return (
             <div className={'dock'}>
                 <div className={'dock-display'}>
+                    <div className={'dock-actions'}>
+                        <button
+                            className={'dock-button'}
+                            onClick={this.launchAppDock()}>
+                            <Icon type={'apps'}/>
+                        </button>
+                    </div>
+                    <div className={'dock-separator'}/>
                     <div className={'dock-apps'}>
                         {this.props.windows
                             .map(window => (
@@ -33,7 +45,7 @@ class Dock extends React.Component {
                                     }
                                 </button>))}
                     </div>
-                    <div className={'dock-separator'} />
+                    <div className={'dock-separator'}/>
                     <div className={'dock-actions'}>
                         <button
                             className={'dock-button'}

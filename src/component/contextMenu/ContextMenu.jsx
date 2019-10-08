@@ -6,6 +6,10 @@ import Icon from '../common/Icon';
 import './contextMenu.scss';
 
 class ContextMenu extends React.Component {
+    onSelectMenu = option => {
+        console.log(option)
+    };
+
     render() {
         if (!this.props.contextMenu.active) {
             return null;
@@ -16,29 +20,16 @@ class ContextMenu extends React.Component {
                 <div
                     style={this.props.contextMenu.position}
                     className={'menu'}>
-                    {this.props.contextMenu.content.map(option => {
-                        switch (option.type) {
-                            case 'button':
-                                return (
-                                    <div className={'menu-option'}
-                                         key={option.value}>
-                                        {option.icon && <Icon type={option.icon}/>}
-                                        <span>{option.value}</span>
-                                    </div>
-                                );
-                            case 'separator':
-                                return (
-                                    <div className={'menu-separator'}/>
-                                );
-                            default:
-                                return null;
-                        }
-
-                    })}
+                    {this.props.contextMenu.content.map(option => (
+                        <div
+                            onClick={() => this.onSelectMenu(option)}
+                            className={'menu-option'}
+                            key={option.value}>
+                            {option.icon && <Icon type={option.icon}/>}
+                            <span>{option.value}</span>
+                        </div>
+                    ))}
                 </div>
-                <div
-                    onClick={this.props.closeContextMenu}
-                    className={'background-layer'}/>
             </div>
         );
     }

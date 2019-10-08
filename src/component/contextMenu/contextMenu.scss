@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .context-menu {
   .menu {
     position: fixed;
@@ -5,6 +7,7 @@
     background: white;
     padding: 6px 0;
     min-width: 120px;
+    box-shadow: 0 0 10px $shadow;
     .menu-option {
       padding: 0 12px;
       font-size: 12px;

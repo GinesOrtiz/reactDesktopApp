@@ -9,11 +9,13 @@ const contextMenu = (state = defaultState, action) => {
     switch (action.type) {
         case ContextMenu.OPEN:
             return {
+                ...state,
                 ...action.config,
                 active: true
             };
         case ContextMenu.CLOSE:
             return {
+                ...state,
                 active: false
             };
         default:

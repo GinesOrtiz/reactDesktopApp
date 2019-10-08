@@ -23,6 +23,8 @@ class MenuBar extends React.Component {
             left: ev.target.offsetLeft
         };
 
+        ev.preventDefault();
+        ev.stopPropagation();
         switch (from) {
             case 'system':
                 this.props.openContextMenu({position, content: this.systemContextMenu});

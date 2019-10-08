@@ -9,8 +9,7 @@ const defaultSate = [
         width: 400,
         height: 250,
         title: 'window 1',
-        createdAt: 1,
-        icon: 'dashboard'
+        createdAt: 1
     },
     {
         id: 'demo',
@@ -19,8 +18,7 @@ const defaultSate = [
         width: 400,
         height: 250,
         title: 'window 2',
-        createdAt: 2,
-        icon: 'event'
+        createdAt: 2
     }
 ];
 

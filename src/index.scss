@@ -10,4 +10,5 @@ html, body, #root, #root > .App {
   outline: none !important;
   user-select: none;
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }

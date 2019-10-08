@@ -6,9 +6,9 @@ import Dock from '../dock/Dock';
 import MenuBar from '../menuBar/MenuBar';
 import {windowInteraction} from './utils/windows';
 import {updateWindow, activeWindow} from '../../actions/windows';
-import './desktop.scss';
-import {openContextMenu} from '../../actions/contextMenu';
+import {closeContextMenu, openContextMenu} from '../../actions/contextMenu';
 import ContextMenu from '../contextMenu/ContextMenu';
+import './desktop.scss';
 
 class Desktop extends React.Component {
     state = {
@@ -20,9 +20,6 @@ class Desktop extends React.Component {
             type: 'button',
             value: 'text',
             icon: 'layers'
-        },
-        {
-            type: 'separator'
         },
         {
             type: 'button',
@@ -78,18 +75,20 @@ class Desktop extends React.Component {
     render() {
         return (
             <div className={'desktop'}
+                 onClick={this.props.closeContextMenu}
                  onMouseMove={this.onMouseMove}
                  onMouseUp={this.onMouseUp}>
                 <MenuBar/>
                 <div
                     onContextMenu={this.onContextMenu}
                     className={'desktop-layer'}
-                    onClick={() => this.props.activeWindow({})}/>
-                {this.props.windows.map((window, pos) => <Window
-                    windowPos={pos}
-                    key={window.id}
-                    onMouseDown={this.onMouseDown}
-                />)}
+                    onClick={() => this.props.activeWindow({})}>
+                    {this.props.windows.map((window, pos) => <Window
+                        windowPos={pos}
+                        key={window.id}
+                        onMouseDown={this.onMouseDown}
+                    />)}
+                </div>
                 <Dock/>
                 <ContextMenu/>
             </div>
@@ -104,7 +103,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     updateWindow: (window, data) => dispatch(updateWindow(window, data)),
     activeWindow: window => dispatch(activeWindow(window)),
-    openContextMenu: config => dispatch(openContextMenu(config))
+    openContextMenu: config => dispatch(openContextMenu(config)),
+    closeContextMenu: () => dispatch(closeContextMenu()),
 });
 
 export default connect(
