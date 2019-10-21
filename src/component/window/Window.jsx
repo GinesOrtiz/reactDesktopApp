@@ -2,23 +2,26 @@ import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 
 import Icon from '../common/Icon';
-import {activeWindow, deleteWindow, fullScreenWindow} from '../../actions/windows';
+import {activeWindow, deleteWindow, fullScreenWindow, minimizeWindow} from '../../actions/windows';
 import './window.scss';
+import {closeContextMenu} from '../../actions/contextMenu';
 
 const WindowNavBar = (props) => (
     <div className={'navbar'}
-         onMouseDown={ev => props.onMouseDown(ev, props.window, 'window')}
          onDoubleClick={() => props.fullScreenWindow(props.window)}>
         <div className={'action-buttons'}>
             <button className={'close'}
-                    onClick={() => props.deleteWindow(props.window)}><Icon type={'close'}/></button>
-            <button className={'minimize'}><Icon type={'minimize'}/></button>
+                    onClick={ev => props.onNavBarAction('delete', props.window, ev)}><Icon type={'close'}/></button>
+            <button className={'minimize'}
+                    onClick={ev => props.onNavBarAction('minimize', props.window, ev)}><Icon type={'minimize'}/>
+            </button>
             <button className={'maximize'}
-                    onClick={() => props.fullScreenWindow(props.window)}>
+                    onClick={ev => props.onNavBarAction('fullScreen', props.window, ev)}>
                 <Icon type={'crop_landscape'}/>
             </button>
         </div>
-        <div className={'title'}>{props.window.title}</div>
+        <div className={'title'}
+             onMouseDown={ev => props.onMouseDown(ev, props.window, 'window')}>{props.window.title}</div>
     </div>
 );
 
@@ -34,24 +37,33 @@ const WindowResizerZone = (props) => (
 );
 
 class Window extends React.Component {
+    onNavBarAction = (action, window, ev) => {
+        ev.stopPropagation();
+        this.props[`${action}Window`](window);
+    };
+
     render() {
         const window = this.props.windows[this.props.windowPos];
 
         return (
-            <div className={`window frame ${window.active ? 'active' : ''}`}
-                 onClick={() => this.props.activeWindow(window)}
+            <div className={`window frame ${window.active ? 'active' : ''} ${window.className || ''}`}
+                 onClick={ev => {
+                     ev.stopPropagation();
+                     this.props.closeContextMenu();
+                     this.props.activeWindow(window)
+                 }}
                  style={{
                      top: `${window.y}px`,
                      left: `${window.x}px`,
                      width: `${window.width}px`,
                      height: `${window.height}px`,
                      transition: window.transition,
-                     zIndex: window.active ? 2 : 1
+                     zIndex: window.active ? 2 : 1,
+                     ...window.styles
                  }}>
                 <WindowNavBar
                     window={window}
-                    deleteWindow={this.props.deleteWindow}
-                    fullScreenWindow={this.props.fullScreenWindow}
+                    onNavBarAction={this.onNavBarAction}
                     onMouseDown={this.props.onMouseDown}
                 />
                 <WindowResizerZone
@@ -73,7 +85,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     activeWindow: window => dispatch(activeWindow(window)),
     fullScreenWindow: window => dispatch(fullScreenWindow(window)),
-    deleteWindow: window => dispatch(deleteWindow(window))
+    deleteWindow: window => dispatch(deleteWindow(window)),
+    minimizeWindow: window => dispatch(minimizeWindow(window)),
+    closeContextMenu: () => dispatch(closeContextMenu())
 });
 
 export default connect(

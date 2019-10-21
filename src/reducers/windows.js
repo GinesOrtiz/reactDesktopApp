@@ -77,6 +77,30 @@ const windows = (state = defaultSate, action) => {
             newState.splice(currentWindow, 1);
 
             return newState;
+        case Windows.MINIMIZE_WINDOW:
+            const appInDock = document.querySelector(`.dock-button[data-app="${newState[currentWindow].id}"]`)
+                .getBoundingClientRect();
+
+            if (newState[currentWindow].prev) {
+                newState[currentWindow] = newState[currentWindow].prev;
+            } else {
+                newState[currentWindow].prev = {...newState[currentWindow]};
+                newState[currentWindow] = {
+                    ...newState[currentWindow],
+                    x: appInDock.x,
+                    y: appInDock.y,
+                    styles: {
+                        pointerEvents: 'none',
+                        transform: 'scale(.3)',
+                        transformOrigin: 'top left',
+                        opacity: 0
+                    }
+                };
+            }
+
+            newState[currentWindow].transition = 'all .3s';
+
+            return newState;
         case Windows.ACTIVE_DESKTOP:
             return newState.map(window => ({...window, active: false}));
         default:

@@ -82,7 +82,8 @@ class Desktop extends React.Component {
                 <div
                     onContextMenu={this.onContextMenu}
                     className={'desktop-layer'}
-                    onClick={() => this.props.activeWindow({})}>
+                    onClick={() => this.props.activeWindow({})}
+                    >
                     {this.props.windows.map((window, pos) => <Window
                         windowPos={pos}
                         key={window.id}

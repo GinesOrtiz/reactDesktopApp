@@ -1,7 +1,7 @@
 import React from 'react';
 import connect from 'react-redux/es/connect/connect';
 
-import {activeWindow, createWindow} from '../../actions/windows';
+import {activeWindow, createWindow, minimizeWindow} from '../../actions/windows';
 import Icon from '../common/Icon';
 import './dock.scss';
 
@@ -20,6 +20,14 @@ class Dock extends React.Component {
 
     };
 
+    activeWindow = window => {
+        if (window.prev) {
+            this.props.minimizeWindow(window);
+        } else {
+            this.props.activeWindow(window);
+        }
+    };
+
     render() {
         return (
             <div className={'dock'}>
@@ -36,9 +44,10 @@ class Dock extends React.Component {
                         {this.props.windows
                             .map(window => (
                                 <button
+                                    data-app={window.id}
                                     key={window.id}
-                                    className={'dock-button'}
-                                    onClick={() => this.props.activeWindow(window)}>
+                                    className={`dock-button ${window.active ? 'active' : ''}`}
+                                    onClick={() => this.activeWindow(window)}>
                                     {window.customIcon
                                         ? <div style={{backgroundImage: window.customIcon}}/>
                                         : <div><Icon type={window.icon || 'extension'}/></div>
@@ -65,7 +74,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     createWindow: window => dispatch(createWindow(window)),
-    activeWindow: window => dispatch(activeWindow(window))
+    activeWindow: window => dispatch(activeWindow(window)),
+    minimizeWindow: window => dispatch(minimizeWindow(window)),
 });
 
 export default connect(
