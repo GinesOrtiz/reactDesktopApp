@@ -3,10 +3,10 @@
 This is a fun project which idea is to mimic a desktop window interface and the goal is to be able to create and run custom apps for it (like electron).  
 
 <p align="center">
-  <img src="https://i.imgur.com/TRun313.gif" />
+  <img src="https://i.imgur.com/Xgp5CXG.gif" />
 </p>
 
-![iframeApp](https://imgur.com/AwPnEj7.png)
+![defaultView](https://i.imgur.com/LWwVxn3.png)
 
 ## Available Scripts
 
